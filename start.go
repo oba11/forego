@@ -19,11 +19,12 @@ const defaultPort = 5000
 var flagPort int
 var flagConcurrency string
 var flagRestart bool
+var flagNoColor bool
 var envs envFiles
 
 var cmdStart = &Command{
 	Run:   runStart,
-	Usage: "start [process name] [-f procfile] [-e env] [-c concurrency] [-p port] [-r]",
+	Usage: "start [process name] [-f procfile] [-e env] [-c concurrency] [-p port] [-r] [-no-color]",
 	Short: "Start the application",
 	Long: `
 Start the application specified by a Procfile (defaults to ./Procfile)
@@ -42,6 +43,7 @@ func init() {
 	cmdStart.Flag.IntVar(&flagPort, "p", defaultPort, "port")
 	cmdStart.Flag.StringVar(&flagConcurrency, "c", "", "concurrency")
 	cmdStart.Flag.BoolVar(&flagRestart, "r", false, "restart")
+	cmdStart.Flag.BoolVar(&flagNoColor, "no-color", false, "disable color")
 	err := readConfigFile(".forego", &flagProcfile, &flagPort, &flagConcurrency)
 	handleError(err)
 }
